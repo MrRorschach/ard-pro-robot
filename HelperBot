@@ -1,0 +1,65 @@
+
+/***********************************
+Our HelperBot
+by Robert, Sian, and Michael
+
+**********************************/
+import com.getflourish.stt.*;
+import ddf.minim.*;
+import guru.ttslib.*;
+
+TTS tts;
+Eye robotEyez;
+
+STT stt;
+String result;
+
+void setup ()
+{
+  size(720,360);
+  background(255);
+  
+  
+  tts = new TTS();
+  // Init STT automatically starts listening
+  stt = new STT(this);
+  stt.enableDebug();
+  stt.setLanguage("en"); 
+  stt.enableAutoRecord();
+ 
+  
+  robotEyez = new Eye();
+  
+  // Some text to display the result
+  textFont(createFont("Arial", 24));
+  result = "Say something!";
+}
+
+void draw ()
+{
+   
+  background(255);
+  robotEyez.display();
+  robotEyez.neutral();
+  text(result,100,  height-100);
+
+  if(result.indexOf("hello")!=-1)
+  {
+    robotEyez.surprised();
+   //tts.speak("Hello! I am a your faithful robot");
+   text("Hello I am a your faithful robot",100,  height-50);
+  }
+  if(result.indexOf("bye")!=-1)
+  {
+    robotEyez.mad();
+   //tts.speak("Hello! I am a your faithful robot");
+   text("nice to meet you",100,  height-50);
+  }
+}
+
+// Method is called if transcription was successfull 
+void transcribe (String utterance, float confidence) 
+{
+  println(utterance);
+  result = utterance;
+}
